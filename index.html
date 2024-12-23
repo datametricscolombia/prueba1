@@ -134,6 +134,10 @@
                         <th scope="row">typeID</th>\
                         <td>' + (feature.properties['typeID'] !== null ? autolinker.link(feature.properties['typeID'].toLocaleString()) : '') + '</td>\
                     </tr>\
+                    <tr>\
+                        <th scope="row">Área HA</th>\
+                        <td>' + (feature.properties['Área HA'] !== null ? autolinker.link(feature.properties['Área HA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
 			layer.on('popupopen', function(e) {
@@ -150,7 +154,7 @@
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 3.0, 
+                weight: 2.0, 
                 fill: true,
                 fillOpacity: 1,
                 fillColor: 'rgba(243,166,178,0.0)',
@@ -172,6 +176,29 @@
         bounds_group.addLayer(layer_LT2609876464646_1);
         map.addLayer(layer_LT2609876464646_1);
         setBounds();
+        var i = 0;
+        layer_LT2609876464646_1.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['q2wHide_begin'] !== null?String('<div style="color: #323232; font-size: 10pt; font-family: \'Arial\', sans-serif;">' + layer.feature.properties['q2wHide_begin']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_LT2609876464646_1'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        resetLabels([layer_LT2609876464646_1]);
+        map.on("zoomend", function(){
+            resetLabels([layer_LT2609876464646_1]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_LT2609876464646_1]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_LT2609876464646_1]);
+        });
         </script>
     </body>
 </html>
